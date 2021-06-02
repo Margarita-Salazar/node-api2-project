@@ -30,7 +30,28 @@ router.get('/:id', async (req, res)=>{
         })
     }
 })
-router.post('/', (req, res)=>{
+router.post('/', async (req, res)=>{
+    const { title, contents } = req.body
+    try{
+        if(
+            !title ||
+            !title.trim() ||
+            !contents ||
+            !contents.trim()
+        ){
+            res.status(400).json({
+                message: 'Please provide title and contents for the post'
+            })
+        }else{
+            const newPostID = await Post.insert(req.body)
+            const post = await Post.findById(newPostID.id)
+            res.status(201).json(post)
+        }
+    }catch(err){
+        res.status(500).json({
+            message: 'There was an error while saving the post to the database'
+        })
+    }
  
 })
 router.put('/:id', (req, res)=>{
