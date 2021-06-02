@@ -99,7 +99,7 @@ router.put('/:id', async (req, res)=>{
             res.status(404).json({
                 message: 'The post with the specified ID does not exist'
             })
-        }
+        } 
     }catch(err){
         res.status(500).json({
             message: 'The post information could not be modified'
